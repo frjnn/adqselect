@@ -1,4 +1,4 @@
-# floydrivest
+# adqselect
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Gethseman](https://circleci.com/gh/Gethseman/floydrivest.svg?style=shield)](https://app.circleci.com/pipelines/github/Gethseman/adqselect)
