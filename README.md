@@ -43,7 +43,7 @@ The algorithm is based on a refined version of Median of Medians and it guarante
 
 ## Benchmarks
 
-Here are some benchmarks against other crates: [floydrivest](https://crates.io/crates/floydrivest), [order-stat](https://crates.io/crates/order-stat), [kth](https://crates.io/crates/kth) and [pdqlselect](https://crates.io/crates/pdqselect).
+Here are some benchmarks against other crates: [floydrivest](https://crates.io/crates/floydrivest), [order-stat](https://crates.io/crates/order-stat), [kth](https://crates.io/crates/kth) and [pdqselect](https://crates.io/crates/pdqselect).
 
 <details><summary>Results</summary>
 <p>
