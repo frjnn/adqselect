@@ -11,7 +11,7 @@ A lightweight crate that brings to Rust an `nth_element` implementation that lev
 Be sure that your `Cargo.toml` looks somewhat like this:
 ```toml
 [dependencies]
-adqselect = "0.1.0"
+adqselect = "0.1.1"
 ```
 ## Usage
 
