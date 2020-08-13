@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Gethseman](https://circleci.com/gh/Gethseman/floydrivest.svg?style=shield)](https://app.circleci.com/pipelines/github/Gethseman/adqselect)
-[![codecov](https://codecov.io/gh/Gethseman/floydrivest/branch/master/graph/badge.svg)](https://codecov.io/gh/Gethseman/adqlselect)
+[![codecov](https://codecov.io/gh/Gethseman/floydrivest/branch/master/graph/badge.svg)](https://codecov.io/gh/Gethseman/adqselect)
 
 A lightweight crate that brings to Rust an `nth_element` implementation that leverages Andrei Alexandrescu's __adaptive quickselect__ algorithm. Also available on [crates.io](https://crates.io/crates/adqselect).
 
@@ -45,10 +45,10 @@ The algorithm is based on a refined version of Median of Medians and it guarante
 
 Here are some benchmarks against other crates: [floydrivest](https://crates.io/crates/floydrivest), [order-stat](https://crates.io/crates/order-stat), [kth](https://crates.io/crates/kth) and [pdqlselect](https://crates.io/crates/pdqselect).
 
+<details><summary>Results</summary>
+<p>
 
-
-<h2>nth_element</h2>
-        <h3>Violin Plot</h3>
+<h3>Violin Plot</h3>
         <a href="violin.svg">
             <img src="./imgs/nth_element/violin.svg" alt="Violin Plot" />
         </a>
