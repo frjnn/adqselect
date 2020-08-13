@@ -1,0 +1,25 @@
+[package]
+name = "adqselect"
+version = "0.1.0"
+authors = ["Gethseman <f.iannelli.francesco229@gmail.com>"]
+edition = "2018"
+description = "A lightweight crate that brings an implementation of nth_element by using the adaptive quickselect algorithm by Andrei Alexandrescu."
+repository = "https://github.com/Gethseman/adqselect"
+license = "MIT"
+keywords = ["nth_element", "adaptive", "quickselect", "SELECT", "order_statistics"]
+categories = ["algorithms"]
+readme = "README.md"
+
+[dependencies]
+
+[dev-dependencies]
+rand  = "0.7.3"
+criterion = "0.3"
+kth = "0.1.0"
+order-stat = "0.1.3"
+pdqselect = "0.1.0"
+floydrivest = "0.2.2"
+
+[[bench]]
+name = "compare"
+harness = false
