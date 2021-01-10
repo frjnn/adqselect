@@ -1,8 +1,8 @@
 # adqselect
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Gethseman](https://circleci.com/gh/Gethseman/floydrivest.svg?style=shield)](https://app.circleci.com/pipelines/github/Gethseman/adqselect)
-[![codecov](https://codecov.io/gh/Gethseman/floydrivest/branch/master/graph/badge.svg)](https://codecov.io/gh/Gethseman/adqselect)
+[![frjnn](https://circleci.com/gh/frjnn/adqselect.svg?style=shield)](https://app.circleci.com/pipelines/github/frjnn/adqselect)
+[![codecov](https://codecov.io/gh/frjnn/adqselect/branch/master/graph/badge.svg)](https://codecov.io/gh/frjnn/adqselect)
 
 A lightweight crate that brings to Rust an `nth_element` implementation that leverages Andrei Alexandrescu's __adaptive quickselect__ algorithm. Also available on [crates.io](https://crates.io/crates/adqselect).
 
