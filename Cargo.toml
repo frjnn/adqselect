@@ -1,6 +1,6 @@
 [package]
 name = "adqselect"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["frjnn <f.iannelli.francesco229@gmail.com>"]
 edition = "2018"
 description = "A lightweight crate that brings an implementation of nth_element by using the adaptive quickselect algorithm by Andrei Alexandrescu."
