@@ -1,10 +1,10 @@
 [package]
 name = "adqselect"
-version = "0.1.1"
-authors = ["Gethseman <f.iannelli.francesco229@gmail.com>"]
+version = "0.1.2"
+authors = ["frjnn <f.iannelli.francesco229@gmail.com>"]
 edition = "2018"
 description = "A lightweight crate that brings an implementation of nth_element by using the adaptive quickselect algorithm by Andrei Alexandrescu."
-repository = "https://github.com/Gethseman/adqselect"
+repository = "https://github.com/frjnn/adqselect"
 license = "MIT"
 keywords = ["nth_element", "adaptive", "quickselect", "SELECT", "order_statistics"]
 categories = ["algorithms"]
