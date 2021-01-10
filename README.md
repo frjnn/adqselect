@@ -49,9 +49,7 @@ Here are some benchmarks against other crates: [floydrivest](https://crates.io/c
 <p>
 
 <h3>Violin Plot</h3>
-        <a href="violin.svg">
-            <img src="./imgs/nth_element/violin.svg" alt="Violin Plot" />
-        </a>
+        <img src="./imgs/nth_element/violin.svg" alt="Violin Plot" />
         <p>This chart shows the relationship between function/parameter and iteration time. The thickness of the shaded
             region indicates the probability that a measurement of the given function/parameter would take a particular
             length of time.</p>
