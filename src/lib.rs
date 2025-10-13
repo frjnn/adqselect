@@ -367,6 +367,7 @@ pub fn nth_element<T, F>(v: &mut [T], nth_el: usize, cmp: &mut F)
 where
     F: FnMut(&T, &T) -> Ordering,
 {
+    assert!(!v.is_empty() && nth_el < v.len(), "nth_element: nth_el is out of bounds");
     adaptive_quickselect(v, nth_el, cmp);
 }
 
