@@ -5,26 +5,24 @@ orbs:
 
 jobs:
   build:
-    docker:
-      - image: cimg/rust:1.89.0
+    machine:
+      image: ubuntu-2204:2024.01.1
     steps:
       - checkout
 
       - run:
+          name: Install Rust
+          command: |
+            curl https://sh.rustup.rs -sSf | sh -s -- -y
+            source $HOME/.cargo/env
+
+      - run:
           name: Install Tarpaulin
           command: cargo install cargo-tarpaulin
-          environment:
-            RUSTFLAGS: --cfg procmacro2_semver_exempt
 
       - run:
           name: Generate coverage report
           command: cargo tarpaulin --out Xml
-
-      - save_cache:
-          key: cargo-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Cargo.lock" }}
-          paths:
-            - /usr/local/cargo/registry
-            - target
 
       - codecov/upload:
           file: cobertura.xml

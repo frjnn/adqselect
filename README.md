@@ -11,7 +11,7 @@ A lightweight crate that brings to Rust an `nth_element` implementation that lev
 Be sure that your `Cargo.toml` looks somewhat like this:
 ```toml
 [dependencies]
-adqselect = "0.1.3"
+adqselect = "0.1.4"
 ```
 ## Usage
 
@@ -49,12 +49,12 @@ Here are some benchmarks against other crates: [floydrivest](https://crates.io/c
 <p>
 
 <h3>Violin Plot</h3>
-        <img src="./imgs/nth_element/violin.svg" alt="Violin Plot" />
+        <img src="./imgs/nth_element/report/violin.svg" alt="Violin Plot" />
         <p>This chart shows the relationship between function/parameter and iteration time. The thickness of the shaded
             region indicates the probability that a measurement of the given function/parameter would take a particular
             length of time.</p>
         <h3>Line Chart</h3>
-        <img src="./imgs/nth_element/lines.svg" alt="Line Chart" />
+        <img src="./imgs/nth_element/report/lines.svg" alt="Line Chart" />
         <p>This chart shows the mean measured time for each function as the input (or the size of the input) increases.
         </p>
         <section class="plots">
@@ -133,7 +133,7 @@ Here are some benchmarks against other crates: [floydrivest](https://crates.io/c
                         </td>
                         <td>
                             <a href="./imgs/nth_element/adqselect/1000000/report/iteration_times.svg">
-                                <img src="./imgs/nth_element/adqselect/1000000/report/iteration_times_small.svg"
+                                <img src="./imgs/nth_element/adqselect/1000000/report/regression_small.svg"
                                     alt="Iteration Times" width="450" height="300" />
                             </a>
                         </td>
@@ -217,7 +217,7 @@ Here are some benchmarks against other crates: [floydrivest](https://crates.io/c
                         </td>
                         <td>
                             <a href="./imgs/nth_element/floydrivest/1000000/report/iteration_times.svg">
-                                <img src="./imgs/nth_element/floydrivest/1000000/report/iteration_times_small.svg"
+                                <img src="./imgs/nth_element/floydrivest/1000000/report/regression_small.svg"
                                     alt="Iteration Times" width="450" height="300" />
                             </a>
                         </td>
@@ -301,7 +301,7 @@ Here are some benchmarks against other crates: [floydrivest](https://crates.io/c
                         </td>
                         <td>
                             <a href="./imgs/nth_element/kth/1000000/report/iteration_times.svg">
-                                <img src="./imgs/nth_element/kth/1000000/report/iteration_times_small.svg"
+                                <img src="./imgs/nth_element/kth/1000000/report/regression_small.svg"
                                     alt="Iteration Times" width="450" height="300" />
                             </a>
                         </td>
@@ -385,7 +385,7 @@ Here are some benchmarks against other crates: [floydrivest](https://crates.io/c
                         </td>
                         <td>
                             <a href="./imgs/nth_element/order_stat/1000000/report/iteration_times.svg">
-                                <img src="./imgs/nth_element/order_stat/1000000/report/iteration_times_small.svg"
+                                <img src="./imgs/nth_element/order_stat/1000000/report/regression_small.svg"
                                     alt="Iteration Times" width="450" height="300" />
                             </a>
                         </td>
@@ -469,7 +469,7 @@ Here are some benchmarks against other crates: [floydrivest](https://crates.io/c
                         </td>
                         <td>
                             <a href="./imgs/nth_element/pdqselect/1000000/report/iteration_times.svg">
-                                <img src="./imgs/nth_element/pdqselect/1000000/report/iteration_times_small.svg"
+                                <img src="./imgs/nth_element/pdqselect/1000000/report/regression_small.svg"
                                     alt="Iteration Times" width="450" height="300" />
                             </a>
                         </td>

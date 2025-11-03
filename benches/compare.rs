@@ -1,22 +1,19 @@
-use criterion::AxisScale;
-use criterion::BenchmarkId;
-use criterion::Criterion;
-use criterion::PlotConfiguration;
-use criterion::{criterion_group, criterion_main};
+use std::time;
 
-use adqselect;
-use floydrivest;
-use kth::SliceExtKth;
-use order_stat::kth;
-use pdqselect::select_by;
+use rand::{seq::SliceRandom, thread_rng};
 
-use rand::seq::SliceRandom;
-use rand::thread_rng;
+use criterion::{
+    AxisScale, BenchmarkId, Criterion, PlotConfiguration, criterion_group, criterion_main,
+};
 
 fn floydrivest_benchmark(c: &mut Criterion) {
     let plot_config = PlotConfiguration::default().summary_scale(AxisScale::Logarithmic);
+
     let mut group = c.benchmark_group("nth_element");
-    group.plot_config(plot_config);
+    group
+        .measurement_time(time::Duration::from_secs(60))
+        .plot_config(plot_config);
+
     for size in [1000, 10_000, 100_000, 1_000_000].iter() {
         let k = (size / 2) as usize;
         group.bench_with_input(BenchmarkId::new("floydrivest", size), size, |b, &size| {
@@ -37,7 +34,7 @@ fn floydrivest_benchmark(c: &mut Criterion) {
             b.iter_batched_ref(
                 || v.clone(),
                 |w: &mut std::vec::Vec<u32>| {
-                    kth(w, k);
+                    order_stat::kth(w, k);
                     assert_eq!(w[k], k as u32)
                 },
                 criterion::BatchSize::LargeInput,
@@ -49,6 +46,8 @@ fn floydrivest_benchmark(c: &mut Criterion) {
             b.iter_batched_ref(
                 || v.clone(),
                 |w: &mut std::vec::Vec<u32>| {
+                    use kth::SliceExtKth;
+
                     w.partition_by_kth(k);
                     assert_eq!(w[k], k as u32)
                 },
@@ -61,7 +60,7 @@ fn floydrivest_benchmark(c: &mut Criterion) {
             b.iter_batched_ref(
                 || v.clone(),
                 |w: &mut std::vec::Vec<u32>| {
-                    select_by(w, k, &mut Ord::cmp);
+                    pdqselect::select_by(w, k, &mut Ord::cmp);
                     assert_eq!(w[k], k as u32)
                 },
                 criterion::BatchSize::LargeInput,

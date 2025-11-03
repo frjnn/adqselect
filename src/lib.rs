@@ -3,39 +3,34 @@
 //! `adqselect` is a small and extremely lightweight crate that provides
 //! an in-place implementation of the Median of Ninthers algorithm
 //! by Andrei Alexandrescu.
-use std::cmp::Ordering;
-use std::cmp::Ordering::{Equal, Greater, Less};
-use std::ptr;
+use std::{cmp::Ordering, ptr};
 
+#[inline(always)]
 fn median_index<T, F>(v: &[T], a: usize, b: usize, c: usize, cmp: &mut F) -> usize
 where
     F: FnMut(&T, &T) -> Ordering,
 {
     unsafe {
-        if cmp(v.get_unchecked(a), v.get_unchecked(c)) == Greater {
-            if cmp(v.get_unchecked(b), v.get_unchecked(a)) == Greater {
+        if cmp(v.get_unchecked(a), v.get_unchecked(c)) == Ordering::Greater {
+            if cmp(v.get_unchecked(b), v.get_unchecked(a)) == Ordering::Greater {
                 a
-            } else {
-                if cmp(v.get_unchecked(b), v.get_unchecked(c)) == Less {
-                    c
-                } else {
-                    b
-                }
-            }
-        } else {
-            if cmp(v.get_unchecked(b), v.get_unchecked(c)) == Greater {
+            } else if cmp(v.get_unchecked(b), v.get_unchecked(c)) == Ordering::Less {
                 c
             } else {
-                if cmp(v.get_unchecked(b), v.get_unchecked(a)) == Less {
-                    a
-                } else {
-                    b
-                }
+                b
             }
+        } else if cmp(v.get_unchecked(b), v.get_unchecked(c)) == Ordering::Greater {
+            c
+        } else if cmp(v.get_unchecked(b), v.get_unchecked(a)) == Ordering::Less {
+            a
+        } else {
+            b
         }
     }
 }
 
+#[inline(always)]
+#[allow(clippy::too_many_arguments)]
 fn ninther<T, F>(
     v: &mut [T],
     a: usize,
@@ -74,7 +69,7 @@ where
     let mut p = pivot;
     for i in hi..right {
         unsafe {
-            if cmp(v.get_unchecked(i), v.get_unchecked(pivot)) == Less {
+            if cmp(v.get_unchecked(i), v.get_unchecked(pivot)) == Ordering::Less {
                 p += 1;
                 ptr::swap(v.get_unchecked_mut(p), v.get_unchecked_mut(i));
             }
@@ -83,6 +78,7 @@ where
     unsafe {
         ptr::swap(v.get_unchecked_mut(p), v.get_unchecked_mut(pivot));
     }
+
     p
 }
 
@@ -99,7 +95,7 @@ where
     let mut p = pivot;
     for i in (left..lo).rev() {
         unsafe {
-            if cmp(v.get_unchecked(i), v.get_unchecked(pivot)) == Greater {
+            if cmp(v.get_unchecked(i), v.get_unchecked(pivot)) == Ordering::Greater {
                 p -= 1;
                 ptr::swap(v.get_unchecked_mut(p), v.get_unchecked_mut(i));
             }
@@ -108,9 +104,11 @@ where
     unsafe {
         ptr::swap(v.get_unchecked_mut(p), v.get_unchecked_mut(pivot));
     }
+
     p
 }
 
+#[inline(always)]
 fn expand_partition<T, F>(v: &mut [T], lo: usize, pivot: usize, hi: usize, cmp: &mut F) -> usize
 where
     F: FnMut(&T, &T) -> Ordering,
@@ -120,21 +118,24 @@ where
 
     unsafe {
         loop {
-            while left < lo
-                && (cmp(v.get_unchecked(left), v.get_unchecked(pivot)) == Less
-                    || cmp(v.get_unchecked(left), v.get_unchecked(pivot)) == Equal)
-            {
-                left += 1
+            while left < lo {
+                match cmp(v.get_unchecked(left), v.get_unchecked(pivot)) {
+                    Ordering::Less | Ordering::Equal => left += 1,
+                    _ => break,
+                }
             }
+
             if left == lo {
                 return expand_partition_right(v, pivot, hi, right + 1, cmp);
             }
-            while right >= hi
-                && (cmp(v.get_unchecked(right), v.get_unchecked(pivot)) == Greater
-                    || cmp(v.get_unchecked(right), v.get_unchecked(pivot)) == Equal)
-            {
-                right -= 1
+
+            while right >= hi {
+                match cmp(v.get_unchecked(right), v.get_unchecked(pivot)) {
+                    Ordering::Greater | Ordering::Equal => right -= 1,
+                    _ => break,
+                }
             }
+
             if right < hi {
                 return expand_partition_left(v, pivot, lo, left, cmp);
             }
@@ -152,52 +153,52 @@ where
 {
     unsafe {
         ptr::swap(v.get_unchecked_mut(0), v.get_unchecked_mut(k));
-    }
-    let mut lo = 1;
-    let mut hi = v.len() - 1;
 
-    while lo <= hi {
-        unsafe {
-            while lo <= hi && cmp(v.get_unchecked(lo), v.get_unchecked(0)) == Less {
+        let (first, others) = v.split_at_mut_unchecked(1);
+        let pivot = first.get_unchecked_mut(0);
+
+        let mut lo = 0;
+        let mut hi = others.len();
+
+        while lo < hi {
+            while lo < hi && cmp(others.get_unchecked(lo), pivot) == Ordering::Less {
                 lo += 1
             }
-            while lo <= hi && cmp(v.get_unchecked(hi), v.get_unchecked(0)) == Greater {
+            hi -= 1;
+            while lo < hi && cmp(others.get_unchecked(hi), pivot) == Ordering::Greater {
                 hi -= 1
             }
-            if lo <= hi {
-                ptr::swap(v.get_unchecked_mut(lo), v.get_unchecked_mut(hi));
+            if lo < hi {
+                ptr::swap(others.get_unchecked_mut(lo), others.get_unchecked_mut(hi));
                 lo += 1;
-                hi -= 1;
             }
         }
-    }
 
-    lo -= 1;
-    unsafe {
-        ptr::swap(v.get_unchecked_mut(lo), v.get_unchecked_mut(0));
+        ptr::swap(v.get_unchecked_mut(0), v.get_unchecked_mut(lo));
+
+        lo
     }
-    lo
 }
 
 fn partition_ninthers<T, F>(v: &mut [T], cmp: &mut F) -> usize
 where
     F: FnMut(&T, &T) -> Ordering,
 {
-    let frac = if v.len() <= 1024 {
-        v.len() / 12
+    let n = v.len();
+
+    let frac = if n <= 1024 {
+        n / 12
+    } else if n <= 128 * 1024 {
+        n >> 6
     } else {
-        if v.len() <= 128 * 1024 {
-            v.len() / 64
-        } else {
-            v.len() / 1024
-        }
+        n >> 10
     };
 
     let pivot = frac / 2;
-    let lo = v.len() / 2 - pivot;
+    let lo = n / 2 - pivot;
     let hi = lo + frac;
 
-    let gap = (v.len() - 9 * frac) / 4;
+    let gap = (n - 9 * frac) / 4;
     let mut a = lo - 4 * frac - gap;
     let mut b = hi + gap;
     for i in lo..hi {
@@ -239,13 +240,13 @@ where
         let mut index = chunk;
         for j in (chunk + 1)..(chunk + span) {
             unsafe {
-                if cmp(v.get_unchecked(j), v.get_unchecked(index)) == Less {
+                if cmp(v.get_unchecked(j), v.get_unchecked(index)) == Ordering::Less {
                     index = j
                 }
             }
         }
         unsafe {
-            if cmp(v.get_unchecked(index), v.get_unchecked(i)) == Less {
+            if cmp(v.get_unchecked(index), v.get_unchecked(i)) == Ordering::Less {
                 ptr::swap(v.get_unchecked_mut(index), v.get_unchecked_mut(i))
             }
         }
@@ -270,13 +271,13 @@ where
         let mut index = chunk;
         for j in (chunk + 1)..(chunk + span) {
             unsafe {
-                if cmp(v.get_unchecked(j), v.get_unchecked(index)) == Greater {
+                if cmp(v.get_unchecked(j), v.get_unchecked(index)) == Ordering::Greater {
                     index = j
                 }
             }
         }
         unsafe {
-            if cmp(v.get_unchecked(index), v.get_unchecked(i)) == Greater {
+            if cmp(v.get_unchecked(index), v.get_unchecked(i)) == Ordering::Greater {
                 ptr::swap(v.get_unchecked_mut(index), v.get_unchecked_mut(i))
             }
         }
@@ -288,60 +289,71 @@ where
     expand_partition(v, start, k, end, cmp)
 }
 
-fn adaptive_quickselect<T, F>(v: &mut [T], nth: usize, cmp: &mut F)
+#[inline(always)]
+fn adaptive_quickselect<T, F>(mut v: &mut [T], mut nth: usize, cmp: &mut F)
 where
     F: FnMut(&T, &T) -> Ordering,
 {
-    let last = v.len() - 1;
+    loop {
+        let n = v.len();
+        let last = n - 1;
 
-    if nth == 0 {
-        let mut pivot = 0;
-        for i in 1..v.len() {
-            unsafe {
-                if cmp(v.get_unchecked(i), v.get_unchecked(pivot)) == Less {
-                    pivot = i
+        if n <= 1 {
+            return;
+        }
+
+        if nth == 0 {
+            let mut pivot = 0;
+            for i in 1..n {
+                unsafe {
+                    if cmp(v.get_unchecked(i), v.get_unchecked(pivot)) == Ordering::Less {
+                        pivot = i;
+                    }
                 }
             }
-        }
-        unsafe {
-            ptr::swap(v.get_unchecked_mut(0), v.get_unchecked_mut(pivot));
-        }
-        return;
-    }
-
-    if nth == last {
-        let mut pivot = 0;
-        for i in 1..v.len() {
             unsafe {
-                if cmp(v.get_unchecked(i), v.get_unchecked(pivot)) == Greater {
-                    pivot = i
+                ptr::swap(v.get_unchecked_mut(0), v.get_unchecked_mut(pivot));
+            }
+            return;
+        }
+
+        if nth == last {
+            let mut pivot = 0;
+            for i in 1..n {
+                unsafe {
+                    if cmp(v.get_unchecked(i), v.get_unchecked(pivot)) == Ordering::Greater {
+                        pivot = i;
+                    }
                 }
             }
+            unsafe {
+                ptr::swap(v.get_unchecked_mut(last), v.get_unchecked_mut(pivot));
+            }
+            return;
         }
-        unsafe {
-            ptr::swap(v.get_unchecked_mut(last), v.get_unchecked_mut(pivot));
+
+        let z = nth * 6;
+        let pivot = if n <= 16 {
+            partition_hoare(v, nth, cmp)
+        } else if z <= n {
+            partition_minima(v, nth, cmp)
+        } else if z >= n * 5 {
+            partition_maxima(v, nth, cmp)
+        } else {
+            partition_ninthers(v, cmp)
+        };
+
+        if pivot == nth {
+            return;
         }
-        return;
-    }
 
-    let pivot = if v.len() <= 16 {
-        partition_hoare(v, nth, cmp)
-    } else if nth * 6 <= v.len() {
-        partition_minima(v, nth, cmp)
-    } else if nth * 6 >= v.len() * 5 {
-        partition_maxima(v, nth, cmp)
-    } else {
-        partition_ninthers(v, cmp)
-    };
-
-    if pivot == nth {
-        return;
-    }
-    if pivot > nth {
-        adaptive_quickselect(&mut v[..pivot], nth, cmp);
-    } else {
-        let start = pivot + 1;
-        adaptive_quickselect(&mut v[start..], nth - start, cmp);
+        if pivot > nth {
+            v = &mut v[..pivot];
+        } else {
+            let start = pivot + 1;
+            v = &mut v[start..];
+            nth -= start;
+        }
     }
 }
 

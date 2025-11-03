@@ -20,7 +20,7 @@ readme = "README.md"
 
 [dev-dependencies]
 rand = "0.8"
-criterion = "0.4"
+criterion = "0.7"
 kth = "0.1"
 order-stat = "0.1"
 pdqselect = "0.1"
