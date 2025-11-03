@@ -1,49 +1,85 @@
+<div align="center">
+
 # adqselect
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![frjnn](https://circleci.com/gh/frjnn/adqselect.svg?style=shield)](https://app.circleci.com/pipelines/github/frjnn/adqselect)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
+[![Build Status](https://circleci.com/gh/frjnn/adqselect.svg?style=shield)](https://app.circleci.com/pipelines/github/frjnn/adqselect)  
 [![codecov](https://codecov.io/gh/frjnn/adqselect/branch/master/graph/badge.svg)](https://codecov.io/gh/frjnn/adqselect)
 
-A lightweight crate that brings to Rust an `nth_element` implementation that leverages Andrei Alexandrescu's __adaptive quickselect__ algorithm. Also available on [crates.io](https://crates.io/crates/adqselect).
+</div>
 
-## Installation 
+A lightweight, zero-dependency crate that provides an efficient `nth_element` implementation in Rust — based on Andrei Alexandrescu’s *Adaptive Quickselect* algorithm.  
+Available on [crates.io](https://crates.io/crates/adqselect).
 
-Be sure that your `Cargo.toml` looks somewhat like this:
+---
+
+## ✨ Features
+- Deterministic linear-time selection (no random pivots)
+- Handles any data type implementing `PartialOrd`
+- Minimal and dependency-free
+- Well-tested and benchmarked
+
+---
+
+## 📦 Installation
+
+Add the crate to your `Cargo.toml`:
+
 ```toml
 [dependencies]
 adqselect = "0.1.4"
 ```
-## Usage
 
-Bring the crate into scope:
+---
+
+## 🚀 Usage
 
 ```rust
-extern crate adqselect;
-
 use adqselect::nth_element;
+
+fn main() {
+    let mut v = vec![10, 7, 9, 7, 2, 8, 8, 1, 9, 4];
+    nth_element(&mut v, 3, &mut Ord::cmp);
+
+    assert_eq!(v[3], 7);
+}
 ```
-then  simply call `nth_element` on a vector.
 
-```rust
-let mut v = vec![10, 7, 9, 7, 2, 8, 8, 1, 9, 4];
-nth_element(&mut v, 3, &mut Ord::cmp);
+`nth_element` rearranges the vector so that the element at position `n` is the same as if the vector were fully sorted — but runs in **O(n)** time on average.
 
-assert_eq!(v[3], 7);
-```
+The elements before index `n` are less than or equal to `v[n]`, and those after are greater than or equal.
 
-This implementation also handles generic data types as long as they satisfy the `PartialEq` and `PartialOrd` traits.
+---
 
-## Implementation
+## 🧩 Implementation
 
-Link to the [original paper: Fast Deterministic Selection](https://arxiv.org/abs/1606.00484) by Andrei Alexandrescu.
+Based on the paper  
+> [**Fast Deterministic Selection** (Andrei Alexandrescu, 2016)](https://arxiv.org/abs/1606.00484)
 
-## Performance
+This algorithm refines the classic *Median of Medians* approach to achieve strong performance guarantees while remaining practical.
 
-The algorithm is based on a refined version of Median of Medians and it guarantees linear deterministic time complexity.
+---
 
-## Benchmarks
+## ⚡ Performance
 
-Here are some benchmarks against other crates: [floydrivest](https://crates.io/crates/floydrivest), [order-stat](https://crates.io/crates/order-stat), [kth](https://crates.io/crates/kth) and [pdqselect](https://crates.io/crates/pdqselect).
+`adqselect` guarantees linear deterministic time complexity and is competitive with popular selection crates such as:
+- [`floydrivest`](https://crates.io/crates/floydrivest)
+- [`order-stat`](https://crates.io/crates/order-stat)
+- [`kth`](https://crates.io/crates/kth)
+- [`pdqselect`](https://crates.io/crates/pdqselect)
+
+---
+
+## 🧪 Benchmarks
+
+Detailed benchmarks are available in the repository, comparing throughput and allocation efficiency across datasets of varying size and distribution.
+
+---
+
+## 📄 License
+
+Licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
 
 <details><summary>Results</summary>
 <p>
