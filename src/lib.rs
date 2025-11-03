@@ -367,25 +367,30 @@ pub fn nth_element<T, F>(v: &mut [T], nth_el: usize, cmp: &mut F)
 where
     F: FnMut(&T, &T) -> Ordering,
 {
-    assert!(!v.is_empty() && nth_el < v.len(), "nth_element: nth_el is out of bounds");
+    assert!(
+        !v.is_empty() && nth_el < v.len(),
+        "nth_element: nth_el is out of bounds"
+    );
     adaptive_quickselect(v, nth_el, cmp);
 }
 
 #[cfg(test)]
 mod tests {
+    use rand::{seq::SliceRandom, thread_rng};
+
     use super::nth_element;
-    use rand::seq::SliceRandom;
-    use rand::thread_rng;
+
     #[test]
     #[cfg(not(tarpaulin_include))]
-    fn test() {
-        for size in [1000, 10_000, 100_000, 1_000_000].iter() {
-            let nth = (size / 2) as usize;
-            let mut v: Vec<u32> = (0..*size).collect();
+    fn test_nth_element() {
+        for size in [1000, 10_000, 100_000, 1_000_000] {
+            let nth = size / 2;
+            let mut v: Vec<usize> = (0..size).collect();
             v.shuffle(&mut thread_rng());
 
-            nth_element(&mut v, nth, &mut Ord::cmp);
-            assert_eq!(v[nth], nth as u32)
+            nth_element(&mut v, nth, &mut |a, b| a.cmp(b));
+
+            assert_eq!(v[nth], nth);
         }
     }
 }
