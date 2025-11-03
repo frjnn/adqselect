@@ -2,24 +2,20 @@
 
 # adqselect
 
-<p align="center">
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
-  </a>
-  <a href="https://app.circleci.com/pipelines/github/frjnn/adqselect">
-    <img src="https://circleci.com/gh/frjnn/adqselect.svg?style=shield" alt="Build Status">
-  </a>
-  <a href="https://codecov.io/gh/frjnn/adqselect">
-    <img src="https://codecov.io/gh/frjnn/adqselect/branch/master/graph/badge.svg" alt="codecov">
-  </a>
-</p>
+</div>
+
+
+<div align="center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![frjnn](https://circleci.com/gh/frjnn/adqselect.svg?style=shield)](https://app.circleci.com/pipelines/github/frjnn/adqselect)
+[![codecov](https://codecov.io/gh/frjnn/adqselect/branch/master/graph/badge.svg)](https://codecov.io/gh/frjnn/adqselect)
 
 </div>
 
-A lightweight, zero-dependency crate that provides an efficient `nth_element` implementation in Rust — based on Andrei Alexandrescu’s *Adaptive Quickselect* algorithm.  
-Available on [crates.io](https://crates.io/crates/adqselect).
 
----
+A lightweight, zero-dependency crate that provides an efficient `nth_element` implementation in Rust based on Andrei Alexandrescu’s *Adaptive Quickselect* algorithm.  
+Available on [crates.io](https://crates.io/crates/adqselect).
 
 ## Installation
 
@@ -29,8 +25,6 @@ Add the crate to your `Cargo.toml`:
 [dependencies]
 adqselect = "0.1.4"
 ```
-
----
 
 ##  Usage
 
@@ -49,16 +43,12 @@ fn main() {
 
 The elements before index `n` are less than or equal to `v[n]`, and those after are greater than or equal.
 
----
-
 ## Implementation
 
 Based on the paper  
 > [**Fast Deterministic Selection** (Andrei Alexandrescu, 2016)](https://arxiv.org/abs/1606.00484)
 
 This algorithm refines the classic *Median of Medians* approach to achieve strong performance guarantees while remaining practical.
-
----
 
 ## Performance
 
@@ -68,13 +58,9 @@ This algorithm refines the classic *Median of Medians* approach to achieve stron
 - [`kth`](https://crates.io/crates/kth)
 - [`pdqselect`](https://crates.io/crates/pdqselect)
 
----
-
 ## Benchmarks
 
 Detailed benchmarks are available in the repository, comparing throughput and allocation efficiency across datasets of varying size and distribution.
-
----
 
 ## License
 
