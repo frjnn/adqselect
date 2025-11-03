@@ -2,9 +2,17 @@
 
 # adqselect
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
-[![Build Status](https://circleci.com/gh/frjnn/adqselect.svg?style=shield)](https://app.circleci.com/pipelines/github/frjnn/adqselect)  
-[![codecov](https://codecov.io/gh/frjnn/adqselect/branch/master/graph/badge.svg)](https://codecov.io/gh/frjnn/adqselect)
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+  </a>
+  <a href="https://app.circleci.com/pipelines/github/frjnn/adqselect">
+    <img src="https://circleci.com/gh/frjnn/adqselect.svg?style=shield" alt="Build Status">
+  </a>
+  <a href="https://codecov.io/gh/frjnn/adqselect">
+    <img src="https://codecov.io/gh/frjnn/adqselect/branch/master/graph/badge.svg" alt="codecov">
+  </a>
+</p>
 
 </div>
 
@@ -13,15 +21,7 @@ Available on [crates.io](https://crates.io/crates/adqselect).
 
 ---
 
-## ✨ Features
-- Deterministic linear-time selection (no random pivots)
-- Handles any data type implementing `PartialOrd`
-- Minimal and dependency-free
-- Well-tested and benchmarked
-
----
-
-## 📦 Installation
+## Installation
 
 Add the crate to your `Cargo.toml`:
 
@@ -32,7 +32,7 @@ adqselect = "0.1.4"
 
 ---
 
-## 🚀 Usage
+##  Usage
 
 ```rust
 use adqselect::nth_element;
@@ -45,13 +45,13 @@ fn main() {
 }
 ```
 
-`nth_element` rearranges the vector so that the element at position `n` is the same as if the vector were fully sorted — but runs in **O(n)** time on average.
+`nth_element` rearranges the vector so that the element at position `n` is the same as if the vector were fully sorted but runs in **O(n)** time on average.
 
 The elements before index `n` are less than or equal to `v[n]`, and those after are greater than or equal.
 
 ---
 
-## 🧩 Implementation
+## Implementation
 
 Based on the paper  
 > [**Fast Deterministic Selection** (Andrei Alexandrescu, 2016)](https://arxiv.org/abs/1606.00484)
@@ -60,7 +60,7 @@ This algorithm refines the classic *Median of Medians* approach to achieve stron
 
 ---
 
-## ⚡ Performance
+## Performance
 
 `adqselect` guarantees linear deterministic time complexity and is competitive with popular selection crates such as:
 - [`floydrivest`](https://crates.io/crates/floydrivest)
@@ -70,13 +70,13 @@ This algorithm refines the classic *Median of Medians* approach to achieve stron
 
 ---
 
-## 🧪 Benchmarks
+## Benchmarks
 
 Detailed benchmarks are available in the repository, comparing throughput and allocation efficiency across datasets of varying size and distribution.
 
 ---
 
-## 📄 License
+## License
 
 Licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
