@@ -23,7 +23,7 @@ Add the crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-adqselect = "0.1.4"
+adqselect = "0.1.5"
 ```
 
 ##  Usage
